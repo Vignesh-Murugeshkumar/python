@@ -7,6 +7,7 @@ print(personjson)
 
 with open('person.json','w') as f:
     json.dump(person,f,indent=4,)
-
-person=json.loads(personjson)
+with open('person.json','r') as f:
+    personjson=f.read()
+    person=json.loads(personjson)
 print(person)
