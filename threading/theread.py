@@ -6,7 +6,7 @@ lock = Lock()
 
 def increment():
     global database_value
-    with lock:  # using context manager automatically handles acquire/release
+    with lock:  
         local_copy = database_value
         local_copy += 1
         time.sleep(0.1)
