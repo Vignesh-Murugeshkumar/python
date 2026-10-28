@@ -1,20 +1,43 @@
+import csv
+from pathlib import Path
+
+
 class Item:
-    def __init__(self, name, price, quantity=0, has_numpad=True):
+    pay_rate=0.8 # The pay rate after 20% discount
+    all=[] # List to store all instances of the Item class
+    def __init__(self, name: str, price: float, quantity: int = 0, has_numpad: bool = True):
+        assert price >=0,f"Pricre {price} is not grater than zero equal to zero"
+        assert quantity >=0, f"Quantity {quantity} is not grater than zero equal to zero"
+        assert isinstance(has_numpad, bool), f"has_numpad {has_numpad} is not a boolean"
         self.name=name
         self.price=price
         self.quantity=quantity
         self.has_numpad=has_numpad
+        Item.all.append(self)
     def total_price(self):
         return self.price * self.quantity
-    
 
-item1=Item("Laptop", 1500, 2)
+    def apply_discount(self):
+        self.price=self.price * self.pay_rate
 
-print("Item 1:", item1.name, item1.price, item1.quantity, item1.total_price())
 
-item2=Item("Smartphone", 800, 3)
+    def __repr__(self):
+        return f"Item('{self.name}', {self.price}, {self.quantity})"
 
-item2.price=2000
-print("Item 2:", item2.name, item2.price, item2.quantity, item2.total_price())
+    @classmethod
+    def instantiate_from_csv(cls):
+        csv_path = Path(__file__).with_name('items.csv')
+        with csv_path.open('r', newline='', encoding='utf-8') as f:
+            reader=csv.DictReader(f)
+            items=list(reader)
+        for item in items:
+            Item(
+                name=item['name'],
+                price=float(item['price']),
+                quantity=int(item['quantity']),
+                has_numpad=bool(item.get('has_numpad'))
+            )
 
-item2.has_numpad=False
+
+Item.instantiate_from_csv()
+print(Item.all)
