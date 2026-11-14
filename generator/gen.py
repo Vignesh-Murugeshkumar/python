@@ -49,3 +49,4 @@ def fib(n):
         a,b=b,a+b
     return a
 print(list(fib(10)))
+

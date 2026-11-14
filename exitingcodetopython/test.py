@@ -1,102 +1,16 @@
 
-from abc import ABC, abstractmethod
-import re
-
-
-class AccountException(Exception):
-    pass
-
-
-class InvalidAmountException(AccountException):
-    pass
-
-
-class InvalidPinException(AccountException):
-    pass
-
-
-class InactiveAccountException(AccountException):
-    pass
-
-
-class AbstractAccount(ABC):
-
-    def __init__(self, accountNumber, name, age, balance, accountType, status, pin):
-
-        if age < 18:
-            raise ValueError("Customer age must be 18 or above")
-
-        if balance < 0:
-            raise ValueError("Initial balance cannot be negative")
-
-        if pin is None or not re.fullmatch(r"\d{4}", pin):
-            raise ValueError("PIN must be 4 digits")
-
-        self.accountNumber = accountNumber
-        self.name = name
-        self.age = age
-        self.balance = balance
-        self.accountType = accountType
-        self.status = status
-        self.pin = pin
-
-    def validatePin(self, enteredPin):
-        return self.pin is not None and self.pin == enteredPin
-
-    def changePin(self, oldPin, newPin):
-        if not self.validatePin(oldPin):
-            return False
-
-        if newPin is None or not re.fullmatch(r"\d{4}", newPin):
-            return False
-
-        self.pin = newPin
-        return True
-
-    def deposit(self, amount):
-        if amount <= 0:
-            raise InvalidAmountException("Deposit amount must be positive")
-
-        self.balance += amount
-
-    def withdraw(self, amount, enteredPin):
-        if not self.validatePin(enteredPin):
-            raise InvalidPinException("Invalid PIN entered")
-
-        if self.status.upper() != "ACTIVE":
-            raise InactiveAccountException("Account is not active")
-
-        if amount <= 0:
-            raise InvalidAmountException("Withdrawal amount must be positive")
-
-        self.processDebit(amount)
-
-    @abstractmethod
-    def processDebit(self, amount):
-        pass
-
-    def displayAccountInfo(self):
-        print("Account Number:", self.accountNumber)
-        print("Name:", self.name)
-        print("Age:", self.age)
-        print("Balance: Rs", self.balance)
-        print("Account Type:", self.accountType)
-        print("Status:", self.status)
-
-    def getAccountNumber(self):
-        return self.accountNumber
-
-    def getName(self):
-        return self.name
-
-    def getAge(self):
-        return self.age
-
-    def getBalance(self):
-        return self.balance
-
-    def getAccountType(self):
-        return self.accountType
-
-    def getStatus(self):
-        return self.status
+class Solution:
+    def maxArea(self, heights: List[int]) -> int:
+        left = 0
+        right = len(heights) - 1
+        maxarea = 0
+        while left < right:
+            height = min(heights[left], heights[right])
+            width = right - left
+            current_area = height * width
+            maxarea = max(current_area, maxarea)
+            if heights[left] < heights[right]:
+                left += 1
+            else:
+                right -= 1
+        return maxarea
