@@ -28,7 +28,7 @@ def repeat_decorator(num_times):
         return wrapper
     return decorator_repeat
 
-@repeat_decorator(num_times=3)
+@repeat_decorator(3)
 def greet(name):
     print(f"Hello, {name}!")
 

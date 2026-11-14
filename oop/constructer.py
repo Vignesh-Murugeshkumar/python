@@ -26,6 +26,26 @@ class itm:
             raise Exception("the name is too long")
         else:
             self.__name=value
+    @property
+    def price(self):
+        return self.__price
+    @property
+    def quantity(self):
+        return self.__quantity
+    @price.setter
+    def price(self,value):
+        if value<0:
+            raise Exception("the price is negative")
+        else:
+            self.__price=value
+    @quantity.setter
+    def quantity(self,value):
+        if value<0:
+            raise Exception("the quantity is negative")
+        else:
+            self.__quantity=value
+    def apply_increment(self,increment_value):
+        self.price+=self.price*increment_value
     @classmethod
     def instantiate_from_csv(cls):
         with open(Path(__file__).with_name("items.csv"),"r",newline="",encoding="utf-8") as f:
@@ -58,3 +78,7 @@ if __name__=="__main__":
     item1=itm("laptop",1500,5)
     item1.name="lap"
     print(item1.name)
+    item1.quantity=10
+    print(item1.quantity)
+    phone1.apply_increment(0.1)
+    print(phone1.price)
