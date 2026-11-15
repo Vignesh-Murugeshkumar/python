@@ -11,30 +11,30 @@ class Library:
         self.price = price
         Library.all_books.append(self)
 
-        @property
-        def book_name(self):
-            return self.__book_name
-        @book_name.setter
-        def book_name(value):
-            if not isinstance(value,str) or not value.strip():
-                raise ValueError("Book name must be a non-empty string.")
-            self.__book_name=value
-        @property
-        def author(self):
-            return self.__author
-        @author.setter
-        def author(self,value):
-            if not isinstance(value,str) or not value.strip():
-                raise ValueError("Author name must be a non-empty string.")
-            self.__author=value 
-        @property
-        def price(self):
-            return self.__price
-        @price.setter
-        def price(self,value):
-            if not isinstance(value,(int,float))or value<=0:
-                raise ValueError("Price must be a positive number.")
-            self.__price=value
+    @property
+    def book_name(self):
+        return self.__book_name
+    @book_name.setter
+    def book_name(self,value):
+        if not isinstance(value,str) or not value.strip():
+            raise ValueError("Book name must be a non-empty string.")
+        self.__book_name=value
+    @property
+    def author(self):
+        return self.__author
+    @author.setter
+    def author(self,value):
+        if not isinstance(value,str) or not value.strip():
+            raise ValueError("Author name must be a non-empty string.")
+        self.__author=value 
+    @property
+    def price(self):
+        return self.__price
+    @price.setter
+    def price(self,value):
+        if not isinstance(value,(int,float))or value<=0:
+            raise ValueError("Price must be a positive number.")
+        self.__price=value
 
     @classmethod
     def change_library_name(cls, new_name):
